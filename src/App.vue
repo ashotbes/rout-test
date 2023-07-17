@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <Input/>
+<!--    <div class="wrapper">-->
+      <UserCard />
+<!--    </div>-->
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+import Input from "@/components/Input.vue";
+import UserCard from "@/components/UserCard.vue";
+
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  components: {UserCard,Input},
+
+  setup() {
+    const store = useStore();
+    const searchResults = ref([]);
+
+    onMounted(() => {
+      const savedResults = localStorage.getItem("searchResults");
+      if (savedResults) {
+        searchResults.value = JSON.parse(savedResults);
+        store.commit("SET_SEARCH_RESULT", searchResults.value);
+      }
+    });
+
+    return { searchResults };
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import "global.css";
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  max-width: 1376px;
+  margin: 0 auto;
+  gap: 28px;
+  padding-top: 34px;
 }
 </style>
