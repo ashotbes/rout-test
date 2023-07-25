@@ -1,9 +1,8 @@
 <template>
   <div id="app">
     <Input/>
-<!--    <div class="wrapper">-->
-      <UserCard />
-<!--    </div>-->
+    <MyButton @click="clearAll" class="my-btn">Clear All</MyButton>
+    <UserCard/>
   </div>
 </template>
 
@@ -12,11 +11,12 @@
 import Input from "@/components/Input.vue";
 import UserCard from "@/components/UserCard.vue";
 
-import { ref, onMounted } from "vue";
-import { useStore } from "vuex";
+import {ref, onMounted} from "vue";
+import {useStore} from "vuex";
+import MyButton from "@/components/MyButton.vue";
 
 export default {
-  components: {UserCard,Input},
+  components: {MyButton, UserCard, Input},
 
   setup() {
     const store = useStore();
@@ -30,7 +30,13 @@ export default {
       }
     });
 
-    return { searchResults };
+    const clearAll = () => {
+      searchResults.value = [];
+      store.commit("SET_SEARCH_RESULT", []);
+      localStorage.removeItem("searchResults");
+    };
+
+    return {searchResults, clearAll};
   }
 }
 </script>
@@ -48,4 +54,11 @@ export default {
   gap: 28px;
   padding-top: 34px;
 }
+
+.my-btn{
+  position: absolute;
+  left: 70%;
+  margin-top: 12px;
+}
+
 </style>
