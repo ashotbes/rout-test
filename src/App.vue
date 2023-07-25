@@ -11,7 +11,7 @@
 import Input from "@/components/Input.vue";
 import UserCard from "@/components/UserCard.vue";
 
-import {ref, onMounted} from "vue";
+import {ref, onMounted, watch} from "vue";
 import {useStore} from "vuex";
 import MyButton from "@/components/MyButton.vue";
 
@@ -55,7 +55,7 @@ export default {
   padding-top: 34px;
 }
 
-.my-btn{
+.my-btn {
   position: absolute;
   left: 70%;
   margin-top: 12px;
